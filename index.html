@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin:0;
+        }
+        body{
+            width:100%;
+            height: 100%;
+            background: url('./scr/02.jpg') 100% 100%;
+        }
+        #body{
+            width: 60vh;
+            height: 60vh;
+            margin: 20vh auto;
+            background-color: aliceblue;
+        }
+        .son{
+            width: 32%;
+            height: 32%;
+            margin: 0.6% 0.6%; 
+            background-color:mediumslateblue;
+            float:left;
+        }
+        .ss{
+            width: 32%;
+            height: 32%;
+            margin: 0.6% 0.6%; 
+            background-color:red;
+            
+            float:left;
+        }
+    </style>
+    <script type="text/javascript" >
+        let poss = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let posc = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let sons;
+        window.onload = function(){
+            sons = document.getElementsByClassName('son');
+            for(let i=0 ; i<9 ;i++){
+                sons[i].onclick = function(){
+                    let a = game(this.id);
+                    if(a==12){
+                        alert('落子错误');
+                    }else if(a==11){
+                        alert('电脑赢得');
+                        location.reload();
+                    }else if(a==10){
+                        alert('玩家胜利');
+                        location.reload();
+                    }else if(a==0){
+                        alert('平局');
+                        location.reload();
+                    }
+                };
+            }
+        };
+        function game(a){
+            if(posc[a-1]==1 || poss[a-1]==1) return 12;
+            posc[a-1]=1;
+            sons[a-1].style.backgroundColor = 'blue';
+            if(posc[0]+posc[1]+posc[2]==3 || posc[3]+posc[4]+posc[5]==3 || posc[6]+posc[7]+posc[8]==3 ) return 10;
+            if(posc[0]+posc[3]+posc[6]==3 || posc[1]+posc[4]+posc[7]==3 || posc[2]+posc[5]+posc[8]==3 )return 10;
+            if(posc[4]+posc[6]+posc[2]==3 || posc[0]+posc[4]+posc[8]==3) return 10; // 玩家胜利；
+
+            if(poss[0]+poss[1]+poss[2]==3 || poss[3]+poss[4]+poss[5]==3 || poss[6]+poss[7]+poss[8]==3 ) return 11;
+            if(poss[0]+poss[3]+poss[6]==3 || poss[1]+poss[4]+poss[7]==3 || poss[2]+poss[5]+poss[8]==3 ) return 11;
+            if(poss[4]+poss[6]+poss[2]==3 || poss[0]+poss[4]+poss[8]==3) return 11; // 电脑胜利；
+            //寻找可落位旗子
+            for(let i=0;i<9;i++){
+                if(posc[i]==0 && poss[i]==0)
+                {
+                    poss[i]=1;
+                    sons[i].style.backgroundColor = 'red';
+                    if(posc[0]+posc[1]+posc[2]==3 || posc[3]+posc[4]+posc[5]==3 || posc[6]+posc[7]+posc[8]==3 ) return 10;
+                    if(posc[0]+posc[3]+posc[6]==3 || posc[1]+posc[4]+posc[7]==3 || posc[2]+posc[5]+posc[8]==3 )return 10;
+                    if(posc[4]+posc[6]+posc[2]==3 || posc[0]+posc[4]+posc[8]==3) return 10; // 玩家胜利；
+
+                    if(poss[0]+poss[1]+poss[2]==3 || poss[3]+poss[4]+poss[5]==3 || poss[6]+poss[7]+poss[8]==3 ) return 11;
+                    if(poss[0]+poss[3]+poss[6]==3 || poss[1]+poss[4]+poss[7]==3 || poss[2]+poss[5]+poss[8]==3 ) return 11;
+                    if(poss[4]+poss[6]+poss[2]==3 || poss[0]+poss[4]+poss[8]==3) return 11;
+                    return i+1;
+                }
+            }
+            return 0;//0结束平局  10endclient赢  11结束server赢  12此落位不合理（已经被放置 ） 
+        };
+    </script>
+
+    <title>井字棋</title>
+</head>
+<body>
+<div id='body'>
+    <div class='son' id='1'></div>
+    <div class='son' id='2'></div>
+    <div class='son' id='3'></div>
+    <div class='son' id='4'></div>
+    <div class='son' id='5'></div>
+    <div class='son' id='6'></div>
+    <div class='son' id='7'></div>
+    <div class='son' id='8'></div>
+    <div class='son' id='9'></div>
+</div>
+</body>
+</html>
